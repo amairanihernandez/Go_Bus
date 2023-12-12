@@ -1,0 +1,55 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+
+    - name: Install dependencies
+      run: |
+        composer install --no-progress --no-suggest --no-interaction
+        npm install
+
+    - name: Copy environment file
+      run: cp .env.example .env
+
+    - name: Generate application key
+      run: php artisan key:generate
+
+    - name: Run PHPUnit tests
+      run: vendor/bin/phpunit
+
+    - name: Check coding standards
+      run: vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
+
+    - name: Run Laravel Dusk tests
+      env:
+        DB_DATABASE: sqlite
+      run: php artisan dusk
+
+    - name: Verify Blade templates
+      run: npm run production
+
+    - name: Intentional error for demonstration
+      run: echo "Intentional error for demonstration" && exit 1
+
+    - name: Collect artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: |
+          tests/Reports
+          storage/logs
