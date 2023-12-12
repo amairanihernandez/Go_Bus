@@ -32,9 +32,16 @@ jobs:
     - name: Run PHPUnit tests
       run: vendor/bin/phpunit
 
+    - name: Install Chromedriver
+      run: |
+           curl -L -O https://chromedriver.storage.googleapis.com/94.0.4606.61/chromedriver_linux64.zip
+           unzip chromedriver_linux64.zip
+           chmod +x chromedriver
+           sudo mv chromedriver /usr/local/bin
+
     - name: Run Laravel Dusk tests
       env:
-        DB_DATABASE: sqlite
+      DB_DATABASE: sqlite
       run: php artisan dusk
 
     - name: Verify Blade templates
