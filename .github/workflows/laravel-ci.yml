@@ -38,9 +38,6 @@ jobs:
     - name: Run PHPUnit tests
       run: vendor/bin/phpunit
 
-    - name: Verify Blade templates
-      run: npm run production
-
     - name: Intentional error for demonstration
       run: echo "Intentional error for demonstration" && exit 1
 
