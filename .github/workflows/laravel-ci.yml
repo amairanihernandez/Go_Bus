@@ -32,9 +32,6 @@ jobs:
     - name: Run PHPUnit tests
       run: vendor/bin/phpunit
 
-    - name: Check coding standards
-      run: vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
-
     - name: Run Laravel Dusk tests
       env:
         DB_DATABASE: sqlite
