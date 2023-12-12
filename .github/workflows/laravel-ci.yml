@@ -23,6 +23,12 @@ jobs:
         composer install --no-progress --no-suggest --no-interaction
         npm install
 
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Update Dependencies
+      run: npm update
+
     - name: Copy environment file
       run: cp .env.example .env
 
